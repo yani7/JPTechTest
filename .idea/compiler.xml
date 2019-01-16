@@ -6,10 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="JPTechTest" />
         <module name="TechTest" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="JPTechTest" target="1.8" />
       <module name="TechTest" target="1.8" />
     </bytecodeTargetLevel>
   </component>

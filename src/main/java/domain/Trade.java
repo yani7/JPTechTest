@@ -93,18 +93,18 @@ public class Trade {
         if (unitNumber != trade.unitNumber) return false;
         if (id != null ? !id.equals(trade.id) : trade.id != null) return false;
         if (instruction != trade.instruction) return false;
-        if (systemDate != null ? !systemDate.equals(trade.systemDate) : trade.systemDate != null) return false;
-        if (fxRate != null ? !fxRate.equals(trade.fxRate) : trade.fxRate != null) return false;
-        return entity != null ? entity.equals(trade.entity) : trade.entity == null;
+        if (!systemDate.equals(trade.systemDate)) return false;
+        if (!fxRate.equals(trade.fxRate)) return false;
+        return entity.equals(trade.entity);
     }
 
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (instruction != null ? instruction.hashCode() : 0);
-        result = 31 * result + (systemDate != null ? systemDate.hashCode() : 0);
-        result = 31 * result + (fxRate != null ? fxRate.hashCode() : 0);
-        result = 31 * result + (entity != null ? entity.hashCode() : 0);
+        result = 31 * result + instruction.hashCode();
+        result = 31 * result + systemDate.hashCode();
+        result = 31 * result + fxRate.hashCode();
+        result = 31 * result + entity.hashCode();
         result = 31 * result + unitNumber;
         return result;
     }

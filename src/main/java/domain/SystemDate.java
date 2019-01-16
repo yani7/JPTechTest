@@ -34,15 +34,14 @@ public class SystemDate {
 
         SystemDate that = (SystemDate) o;
 
-        if (instructionDate != null ? !instructionDate.equals(that.instructionDate) : that.instructionDate != null)
-            return false;
-        return settlementDate != null ? settlementDate.equals(that.settlementDate) : that.settlementDate == null;
+        if (!instructionDate.equals(that.instructionDate)) return false;
+        return settlementDate.equals(that.settlementDate);
     }
 
     @Override
     public int hashCode() {
-        int result = instructionDate != null ? instructionDate.hashCode() : 0;
-        result = 31 * result + (settlementDate != null ? settlementDate.hashCode() : 0);
+        int result = instructionDate.hashCode();
+        result = 31 * result + settlementDate.hashCode();
         return result;
     }
 }

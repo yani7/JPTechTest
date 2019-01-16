@@ -28,4 +28,22 @@ public class FxRate {
     public void setAgreedRate(BigDecimal agreedRate) {
         this.agreedRate = agreedRate;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        FxRate fxRate = (FxRate) o;
+
+        if (!currency.equals(fxRate.currency)) return false;
+        return agreedRate.equals(fxRate.agreedRate);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = currency.hashCode();
+        result = 31 * result + agreedRate.hashCode();
+        return result;
+    }
 }

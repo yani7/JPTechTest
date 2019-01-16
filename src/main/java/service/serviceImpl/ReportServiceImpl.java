@@ -16,7 +16,7 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public void printDailySettledAmountReport(ReportType reportType, Map<LocalDate, BigDecimal> tradesPerDates) {
-        System.out.println(getReportType(reportType) + "SETTLEMENT VALUE DAILY REPORT"); ;
+        System.out.println("SETTLED " + getReportType(reportType) + "VALUE DAILY REPORT"); ;
         for (Map.Entry<LocalDate, BigDecimal> tradesPerDate : tradesPerDates.entrySet()) {
             LocalDate key = tradesPerDate.getKey();
             System.out.println("Settlement Date: " + key);
