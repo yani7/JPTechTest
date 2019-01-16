@@ -2,9 +2,6 @@ package domain;
 
 import java.math.BigDecimal;
 
-/**
- * Created by Yanitsa on 8.1.2019 г..
- */
 public class FxRate {
 
     private String currency;

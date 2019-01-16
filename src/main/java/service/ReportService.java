@@ -1,11 +1,13 @@
 package service;
 
+import domain.Trade;
 import org.joda.time.LocalDate;
 import service.serviceImpl.ReportServiceImpl;
 import service.serviceImpl.ReportServiceImpl.ReportType;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,6 +15,8 @@ import java.util.Map;
  */
 public interface ReportService {
 
-    void printReport(ReportType reportType, Map<LocalDate, BigDecimal> tradesPerDate);
+    void printDailySettledAmountReport(ReportType reportType, Map<LocalDate, BigDecimal> tradesPerDate);
+
+    void printRankingReport(ReportType reportType, List<Trade> trades);
 
 }

@@ -10,10 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by Yanitsa on 8.1.2019 г..
- */
-public interface SettledAmountCalculationService {
+public interface DailySettledAmountService {
 
     Map<LocalDate, BigDecimal> calculateDailySettledAmountPerInstructionType(Instruction instruction, List<Trade> trades);
 

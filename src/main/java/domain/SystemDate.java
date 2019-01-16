@@ -1,6 +1,5 @@
 package domain;
 
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 public class SystemDate {

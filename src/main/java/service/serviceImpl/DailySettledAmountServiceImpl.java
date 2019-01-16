@@ -2,25 +2,24 @@ package service.serviceImpl;
 
 import domain.Trade;
 import domain.Trade.Instruction;
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import service.DatesService;
-import service.SettledAmountCalculationService;
+import service.DailySettledAmountService;
 
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class SettledAmountCalcServiceImpl implements SettledAmountCalculationService {
+public class DailySettledAmountServiceImpl implements DailySettledAmountService {
 
     private DatesService datesService;
 
-    public SettledAmountCalcServiceImpl(DatesService datesService) {
+    public DailySettledAmountServiceImpl(DatesService datesService) {
         this.datesService = datesService;
     }
 
     public Map<LocalDate, BigDecimal> calculateDailySettledAmountPerInstructionType(Instruction instruction, List<Trade> trades) {
-        List<Trade> outgoingTrades = removeIrrellevantTradesPerInstructionType(instruction, trades);
+        List<Trade> outgoingTrades = removeIrrelevantTradesPerInstructionType(instruction, trades);
         outgoingTrades.forEach(trade -> {
             trade = datesService.validateSettlementDate(trade);
         });
@@ -35,7 +34,7 @@ public class SettledAmountCalcServiceImpl implements SettledAmountCalculationSer
             BigDecimal outgoingAmountTotal = new BigDecimal("0.0");
             for (Trade trade : outgoingTrades) {
                 if (trade.getSystemDate().getSettlementDate().equals(date)) {
-                    BigDecimal tradeAmount = calculateValueOfTrade(trade);
+                    BigDecimal tradeAmount = trade.calculateValueOfTrade();
                     outgoingAmountTotal = outgoingAmountTotal.add(tradeAmount);
                 }
             }
@@ -44,14 +43,8 @@ public class SettledAmountCalcServiceImpl implements SettledAmountCalculationSer
         return outgoingAmountMap;
     }
 
-    private List<Trade> removeIrrellevantTradesPerInstructionType(Instruction instruction, List<Trade> trades) {
+    private List<Trade> removeIrrelevantTradesPerInstructionType(Instruction instruction, List<Trade> trades) {
         return trades.stream().filter(trade -> trade.getInstruction().equals(instruction))
                 .collect(Collectors.toList());
-    }
-
-    private BigDecimal calculateValueOfTrade(Trade trade) {
-        return trade.getPrice().getPricePerUnit()
-                .multiply(new BigDecimal(trade.getUnitNumber()))
-                    .multiply(trade.getFxRate().getAgreedRate());
     }
 }

@@ -1,8 +1,7 @@
 package domain;
 
-/**
- * Created by Yanitsa on 8.1.2019 г..
- */
+import java.math.BigDecimal;
+
 public class Trade {
 
     public enum Instruction {
@@ -17,16 +16,16 @@ public class Trade {
 
     private FxRate fxRate;
 
-    private Price price;
+    private Entity entity;
 
     private int unitNumber;
 
-    public Trade(Long id, Instruction instruction, SystemDate systemDate, FxRate fxRate, Price price, int unitNumber) {
+    public Trade(Long id, Instruction instruction, SystemDate systemDate, FxRate fxRate, Entity entity, int unitNumber) {
         this.id = id;
         this.instruction = instruction;
         this.systemDate = systemDate;
         this.fxRate = fxRate;
-        this.price = price;
+        this.entity = entity;
         this.unitNumber = unitNumber;
     }
 
@@ -62,12 +61,12 @@ public class Trade {
         this.fxRate = fxRate;
     }
 
-    public Price getPrice() {
-        return price;
+    public Entity getEntity() {
+        return entity;
     }
 
-    public void setPrice(Price price) {
-        this.price = price;
+    public void setEntity(Entity entity) {
+        this.entity = entity;
     }
 
     public int getUnitNumber() {
@@ -76,6 +75,12 @@ public class Trade {
 
     public void setUnitNumber(int unitNumber) {
         this.unitNumber = unitNumber;
+    }
+
+    public BigDecimal calculateValueOfTrade() {
+        return this.getEntity().getPricePerUnit()
+                .multiply(new BigDecimal(this.getUnitNumber()))
+                .multiply(this.getFxRate().getAgreedRate());
     }
 
     @Override
@@ -90,7 +95,7 @@ public class Trade {
         if (instruction != trade.instruction) return false;
         if (systemDate != null ? !systemDate.equals(trade.systemDate) : trade.systemDate != null) return false;
         if (fxRate != null ? !fxRate.equals(trade.fxRate) : trade.fxRate != null) return false;
-        return price != null ? price.equals(trade.price) : trade.price == null;
+        return entity != null ? entity.equals(trade.entity) : trade.entity == null;
     }
 
     @Override
@@ -99,7 +104,7 @@ public class Trade {
         result = 31 * result + (instruction != null ? instruction.hashCode() : 0);
         result = 31 * result + (systemDate != null ? systemDate.hashCode() : 0);
         result = 31 * result + (fxRate != null ? fxRate.hashCode() : 0);
-        result = 31 * result + (price != null ? price.hashCode() : 0);
+        result = 31 * result + (entity != null ? entity.hashCode() : 0);
         result = 31 * result + unitNumber;
         return result;
     }
