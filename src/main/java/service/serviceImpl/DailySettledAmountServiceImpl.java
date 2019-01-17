@@ -19,26 +19,26 @@ public class DailySettledAmountServiceImpl implements DailySettledAmountService 
     }
 
     public Map<LocalDate, BigDecimal> calculateDailySettledAmountPerInstructionType(Instruction instruction, List<Trade> trades) {
-        List<Trade> outgoingTrades = removeIrrelevantTradesPerInstructionType(instruction, trades);
-        outgoingTrades.forEach(trade -> {
+        List<Trade> tradeList = removeIrrelevantTradesPerInstructionType(instruction, trades);
+        tradeList.forEach(trade -> {
             trade = datesService.validateSettlementDate(trade);
         });
 
         Set<LocalDate> distinctDates = new HashSet<>();
-        outgoingTrades.forEach(trade -> {
+        tradeList.forEach(trade -> {
             distinctDates.add(trade.getSystemDate().getSettlementDate());
         });
 
         Map<LocalDate, BigDecimal> outgoingAmountMap = new HashMap<LocalDate, BigDecimal>();
         distinctDates.forEach(date -> {
-            BigDecimal outgoingAmountTotal = new BigDecimal("0.0");
-            for (Trade trade : outgoingTrades) {
+            BigDecimal totalAmount = new BigDecimal("0.0");
+            for (Trade trade : tradeList) {
                 if (trade.getSystemDate().getSettlementDate().equals(date)) {
                     BigDecimal tradeAmount = trade.calculateValueOfTrade();
-                    outgoingAmountTotal = outgoingAmountTotal.add(tradeAmount);
+                    totalAmount = totalAmount.add(tradeAmount);
                 }
             }
-            outgoingAmountMap.putIfAbsent(date, outgoingAmountTotal);
+            outgoingAmountMap.putIfAbsent(date, totalAmount);
         });
         return outgoingAmountMap;
     }

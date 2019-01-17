@@ -11,7 +11,6 @@ import service.DailySettledAmountService;
 import service.serviceImpl.DatesServiceImpl;
 import service.serviceImpl.EntityRankingServiceImpl;
 import service.serviceImpl.ReportServiceImpl;
-import service.serviceImpl.ReportServiceImpl.ReportType;
 import service.serviceImpl.DailySettledAmountServiceImpl;
 
 import java.math.BigDecimal;
@@ -61,12 +60,12 @@ public class App {
         report = dailySettledAmountService
                 .calculateDailySettledAmountPerInstructionType(Instruction.Buy, trades);
 
-        reportService.printDailySettledAmountReport(ReportType.Outgoing, report);
+        reportService.printDailySettledAmountReport(Instruction.Buy, report);
 
         report = dailySettledAmountService
                 .calculateDailySettledAmountPerInstructionType(Instruction.Sell, trades);
 
-        reportService.printDailySettledAmountReport(ReportType.Incoming, report);
+        reportService.printDailySettledAmountReport(Instruction.Sell, report);
 
         //Ranking reporting
         EntityRankingService entityRankingService = new EntityRankingServiceImpl();
@@ -79,9 +78,9 @@ public class App {
         trades.add(tradeEight);
 
         List<Trade> rankedOutgoingTrades = entityRankingService.rankEntitiesByInstructedAmount(Instruction.Buy, trades);
-        reportService.printRankingReport(ReportType.Outgoing, rankedOutgoingTrades);
+        reportService.printRankingReport(Instruction.Buy, rankedOutgoingTrades);
 
         List<Trade> rankedIncomingTrades = entityRankingService.rankEntitiesByInstructedAmount(Instruction.Sell, trades);
-        reportService.printRankingReport(ReportType.Incoming, rankedIncomingTrades);
+        reportService.printRankingReport(Instruction.Sell, rankedIncomingTrades);
     }
 }
